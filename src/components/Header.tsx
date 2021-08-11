@@ -20,7 +20,7 @@ export function Header(): JSX.Element {
   return (
     <AppBar>
       <Toolbar>
-        <Typography variant="h4">Form</Typography>
+        <Typography variant="h4">Quiz</Typography>
         <IconButton onClick={handleSwitchTheme} style={{ marginLeft: 'auto' }}>
           {theme === 'dark' ? <WbSunny /> : <NightsStay />}
         </IconButton>
