@@ -1,5 +1,11 @@
 import React from 'react'
 
+import { ThemeProvider } from 'core/contexts'
+
 export function App(): JSX.Element {
-  return <div className="App" />
+  return (
+    <ThemeProvider>
+      <div className="App" />
+    </ThemeProvider>
+  )
 }
