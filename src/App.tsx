@@ -1,16 +1,14 @@
 import React from 'react'
 
-import { ThemeProvider } from 'core/contexts'
-
-import { Header } from 'components'
-import { Home, Quiz } from 'pages'
+import { Routes } from 'config/routes'
+import { QuizProvider, ThemeProvider } from 'core/contexts'
 
 export function App(): JSX.Element {
   return (
     <ThemeProvider>
-      <Header />
-      {/* <Home /> */}
-      <Quiz />
+      <QuizProvider>
+        <Routes />
+      </QuizProvider>
     </ThemeProvider>
   )
 }
