@@ -9,7 +9,7 @@ declare namespace QuizModule {
     difficulty: Difficulty
     question: string
 
-    // When type equal to boolean, correctAnswer will be 'False' or 'True
+    selectedAnswer?: string
     correctAnswer: string
     incorrectAnswers: string[]
   }
