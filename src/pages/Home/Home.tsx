@@ -2,6 +2,7 @@
  * React & libs
  */
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import {
   Box,
   Button,
@@ -15,13 +16,20 @@ import { useQuiz } from 'core/hooks'
 import { Header } from 'components'
 
 export function Home(): JSX.Element {
+  const history = useHistory()
   const { handleStartQuiz } = useQuiz()
 
   const [amount, setAmount] = useState(1)
   const [step, setStep] = useState(1)
 
   const handleClickStart = async (): Promise<void> => {
+    history.push('/quiz')
     await handleStartQuiz(amount)
+  }
+
+  const handleClickCancel = (): void => {
+    setAmount(1)
+    setStep(1)
   }
 
   return (
@@ -57,21 +65,32 @@ export function Home(): JSX.Element {
             </Button>
           </FormGroup>
         ) : (
-          <Box display="flex" justifyContent="center" style={{ gap: 20 }}>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => setStep(1)}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleClickStart}
-            >
-              Start
-            </Button>
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            style={{ gap: 20 }}
+          >
+            <Typography>
+              Start the quiz with {amount}{' '}
+              {amount > 1 ? 'questions' : 'question'}?
+            </Typography>
+            <Box display="flex" justifyContent="center" style={{ gap: 20 }}>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleClickCancel}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleClickStart}
+              >
+                Start
+              </Button>
+            </Box>
           </Box>
         )}
       </div>

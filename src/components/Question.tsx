@@ -1,7 +1,7 @@
 /**
  * React & libs
  */
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import {
   Box,
   FormControl,
@@ -10,25 +10,48 @@ import {
   Radio,
   RadioGroup
 } from '@material-ui/core'
+import { Check, Clear } from '@material-ui/icons'
+import { green, red } from '@material-ui/core/colors'
 
 import { shuffle } from 'utils'
 
-export function Question({ question }: Question.Props): JSX.Element {
-  const answers = useMemo(() => {
+export function Question({
+  question,
+  showCorrection
+}: Question.Props): JSX.Element {
+  const alternatives = useMemo(() => {
     return shuffle([...question.incorrectAnswers, question.correctAnswer])
   }, [question.correctAnswer, question.incorrectAnswers])
+
+  const isAlternativeCorrect = useCallback(
+    (alternative: string) => {
+      return alternative === question.correctAnswer
+    },
+    [question.correctAnswer]
+  )
 
   return (
     <Box>
       <FormControl component="fieldset">
         <FormLabel component="legend">{question.question}</FormLabel>
         <RadioGroup name="selectedAnswer">
-          {answers.map((answer) => (
+          {alternatives.map((alternative) => (
             <FormControlLabel
-              key={answer}
-              value={answer}
+              key={alternative}
+              value={alternative}
               control={<Radio />}
-              label={answer}
+              disabled={showCorrection}
+              label={
+                <Box display="flex" alignItems="center">
+                  {showCorrection &&
+                    (isAlternativeCorrect(alternative) ? (
+                      <Check htmlColor={green[500]} />
+                    ) : (
+                      <Clear htmlColor={red[900]} />
+                    ))}
+                  {alternative}
+                </Box>
+              }
             />
           ))}
         </RadioGroup>

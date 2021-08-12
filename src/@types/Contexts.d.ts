@@ -14,8 +14,10 @@ declare namespace QuizContext {
     questions: QuizModule.Question[]
     finished: boolean
     score?: number
+    loading: boolean
     handleStartQuiz: (amount: number) => Promise<void>
     handleSubmitQuiz: () => void
+    handleCancelQuiz: () => void
   }
 
   type Props = {

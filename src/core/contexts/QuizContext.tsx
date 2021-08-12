@@ -10,9 +10,22 @@ export function QuizProvider({ children }: QuizContext.Props): JSX.Element {
   const [questions, setQuestions] = useState<QuizModule.Question[]>([])
   const [score, setScore] = useState<number>()
   const [finished, setFinished] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const handleStartQuiz = async (amount: number): Promise<void> => {
-    const { results } = await api.fetchQuestions({ amount })
+    setLoading(true)
+
+    setQuestions([])
+    const { results, response_code } = await api.fetchQuestions({ amount })
+
+    if (
+      response_code !== 0 ||
+      response_code === undefined ||
+      results === undefined
+    ) {
+      setLoading(false)
+      return
+    }
 
     const newQuestions: QuizModule.Question[] = results.map((question) => ({
       ...question,
@@ -21,11 +34,20 @@ export function QuizProvider({ children }: QuizContext.Props): JSX.Element {
     }))
 
     setQuestions(newQuestions)
-    console.log(newQuestions)
+
+    setLoading(false)
   }
 
   const handleSubmitQuiz = (): void => {
     setQuestions([])
+    setScore(undefined)
+    setFinished(false)
+  }
+
+  const handleCancelQuiz = (): void => {
+    setQuestions([])
+    setScore(undefined)
+    setFinished(false)
   }
 
   return (
@@ -34,8 +56,10 @@ export function QuizProvider({ children }: QuizContext.Props): JSX.Element {
         questions,
         finished,
         score,
+        loading,
         handleStartQuiz,
-        handleSubmitQuiz
+        handleSubmitQuiz,
+        handleCancelQuiz
       }}
     >
       {children}
