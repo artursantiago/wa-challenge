@@ -1,7 +1,9 @@
-import * as yup from 'yup'
+import * as Yup from 'yup'
 
-export const validationSchema = yup.object().shape({
-  amount: yup.number().required('Amount is required')
+type SelectQuestionAmountSchema = Yup.SchemaOf<Forms.Amount>
+
+export const validationSchema: SelectQuestionAmountSchema = Yup.object().shape({
+  amount: Yup.number().required('Amount is required')
 })
 
 export const initialValues: Forms.Amount = {

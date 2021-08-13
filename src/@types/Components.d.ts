@@ -1,7 +1,12 @@
 declare namespace Question {
   type Props = {
+    index: number
     question: QuizModule.Question
     showCorrection?: boolean
+    handleChange: (
+      event: React.ChangeEvent<HTMLInputElement>,
+      value: string
+    ) => void
   }
 }
 declare namespace SelectQuestionAmount {

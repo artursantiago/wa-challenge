@@ -3,6 +3,11 @@ declare namespace QuizModule {
 
   type Type = 'multiple' | 'boolean'
 
+  type Score = {
+    score: number // percentage
+    correctAnswersTotal: number
+  }
+
   type Question = {
     category: string
     type: Type

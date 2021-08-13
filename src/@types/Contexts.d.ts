@@ -8,15 +8,14 @@ declare namespace ThemeContext {
     children: React.ReactNode
   }
 }
-
 declare namespace QuizContext {
   type Data = {
     questions: QuizModule.Question[]
     finished: boolean
-    score?: number
+    score?: QuizModule.Score
     loading: boolean
     handleStartQuiz: (amount: number) => Promise<void>
-    handleSubmitQuiz: () => void
+    handleSubmitQuiz: (questions: QuizModule.Question[]) => void
     handleCancelQuiz: () => void
   }
 

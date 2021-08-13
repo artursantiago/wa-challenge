@@ -16,7 +16,9 @@ import { green, red } from '@material-ui/core/colors'
 import { shuffle } from 'utils'
 
 export function Question({
+  index,
   question,
+  handleChange,
   showCorrection
 }: Question.Props): JSX.Element {
   const alternatives = useMemo(() => {
@@ -34,9 +36,14 @@ export function Question({
     <Box>
       <FormControl component="fieldset">
         <FormLabel component="legend">{question.question}</FormLabel>
-        <RadioGroup name="selectedAnswer">
+        <RadioGroup
+          name={`questions.${index}.selectedAnswer`}
+          value={question.selectedAnswer ?? ''}
+          onChange={handleChange}
+        >
           {alternatives.map((alternative) => (
             <FormControlLabel
+              name={`questions.${index}.selectedAnswer`}
               key={alternative}
               value={alternative}
               control={<Radio />}
