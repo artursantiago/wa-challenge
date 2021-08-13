@@ -7,7 +7,7 @@ import React, { createContext, useState } from 'react'
  * Config, core, components, utils, assets, styles
  */
 import { api } from 'core/api'
-import { calculateScore } from 'utils'
+import { calculateScore } from 'utils/helpers'
 
 export const QuizContext = createContext({} as QuizContext.Data)
 

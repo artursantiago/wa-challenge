@@ -13,7 +13,7 @@ import {
 import { Check, Clear } from '@material-ui/icons'
 import { green, red } from '@material-ui/core/colors'
 
-import { shuffle } from 'utils'
+import { shuffle } from 'utils/helpers'
 
 export function Question({
   index,
