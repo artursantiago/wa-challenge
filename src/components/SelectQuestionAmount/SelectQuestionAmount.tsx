@@ -17,11 +17,8 @@ export function SelectQuestionAmount({
     validationSchema
   })
 
-  const { values, handleChange, errors, touched, handleSubmit } = formik
-
-  const valid = useMemo((): boolean => {
-    return formik.isValid && values.amount >= 1
-  }, [formik, values])
+  const { values, handleChange, errors, touched, handleSubmit, isValid } =
+    formik
 
   return (
     <form onSubmit={handleSubmit}>
@@ -49,7 +46,7 @@ export function SelectQuestionAmount({
         variant="contained"
         fullWidth
         type="submit"
-        disabled={!valid}
+        disabled={!isValid}
       >
         Submit
       </Button>
