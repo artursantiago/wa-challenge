@@ -8,6 +8,6 @@ export function calculateScore(
   }, 0)
   return {
     correctAnswersTotal,
-    score: correctAnswersTotal / questions.length
+    percentage: correctAnswersTotal / questions.length
   }
 }

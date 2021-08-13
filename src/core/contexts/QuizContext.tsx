@@ -7,20 +7,28 @@ import React, { createContext, useState } from 'react'
  * Config, core, components, utils, assets, styles
  */
 import { api } from 'core/api'
+
 import { calculateScore } from 'utils/helpers'
+import { storage } from 'utils/storage'
 
 export const QuizContext = createContext({} as QuizContext.Data)
 
 export function QuizProvider({ children }: QuizContext.Props): JSX.Element {
-  const [questions, setQuestions] = useState<QuizModule.Question[]>([])
-  const [score, setScore] = useState<QuizModule.Score>()
-  const [finished, setFinished] = useState(false)
+  const [quiz, setQuiz] = useState<QuizModule.Quiz>({} as QuizModule.Quiz)
   const [loading, setLoading] = useState(false)
 
   const handleStartQuiz = async (amount: number): Promise<void> => {
     setLoading(true)
 
-    setQuestions([])
+    setQuiz({
+      id: '',
+      questions: [],
+      score: {
+        percentage: 0,
+        correctAnswersTotal: 0
+      },
+      startedAt: new Date()
+    })
     const { results, response_code } = await api.fetchQuestions({ amount })
 
     if (
@@ -38,35 +46,44 @@ export function QuizProvider({ children }: QuizContext.Props): JSX.Element {
       incorrectAnswers: question.incorrect_answers
     }))
 
-    setQuestions(newQuestions)
-
+    setQuiz((previous) => ({
+      ...previous,
+      questions: newQuestions
+    }))
     setLoading(false)
   }
 
   const handleSubmitQuiz = (
     submittedQuestions: QuizModule.Question[]
   ): void => {
-    setScore(calculateScore(submittedQuestions))
-    setQuestions([])
-    setFinished(false)
+    const newQuiz = {
+      ...quiz,
+      id: String(new Date().getTime()),
+      score: calculateScore(submittedQuestions),
+      questions: submittedQuestions,
+      finishedAt: new Date()
+    }
+    setQuiz(newQuiz)
+
+    const savedQuizzes = storage.get<QuizModule.Quiz[]>('quizzes')
+    const newQuizzes = savedQuizzes?.length
+      ? [...savedQuizzes, newQuiz]
+      : [newQuiz]
+    storage.save<QuizModule.Quiz[]>('quizzes', newQuizzes)
   }
 
-  const handleCancelQuiz = (): void => {
-    setQuestions([])
-    setScore(undefined)
-    setFinished(false)
+  const resetQuiz = (): void => {
+    setQuiz({} as QuizModule.Quiz)
   }
 
   return (
     <QuizContext.Provider
       value={{
-        questions,
-        finished,
-        score,
+        quiz,
         loading,
         handleStartQuiz,
         handleSubmitQuiz,
-        handleCancelQuiz
+        resetQuiz
       }}
     >
       {children}

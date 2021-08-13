@@ -4,7 +4,7 @@ declare namespace QuizModule {
   type Type = 'multiple' | 'boolean'
 
   type Score = {
-    score: number // percentage
+    percentage: number // percentage
     correctAnswersTotal: number
   }
 
@@ -17,5 +17,13 @@ declare namespace QuizModule {
     selectedAnswer?: string
     correctAnswer: string
     incorrectAnswers: string[]
+  }
+
+  type Quiz = {
+    id: string
+    questions: Question[]
+    score: Score
+    finishedAt?: string | Date
+    startedAt: string | Date
   }
 }

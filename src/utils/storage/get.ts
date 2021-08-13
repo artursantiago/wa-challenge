@@ -3,7 +3,7 @@ export const getFromStorage = <T>(
   storage?: StorageModule.Type
 ): T | null => {
   if (!storage) {
-    return getFromStorage<T>(key, 'Local') ?? getFromStorage<T>(key, 'Session')
+    return getFromStorage(key, 'Local') ?? getFromStorage(key, 'Session')
   }
 
   const store: Storage = storage === 'Local' ? localStorage : sessionStorage

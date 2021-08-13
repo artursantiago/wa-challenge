@@ -10,13 +10,11 @@ declare namespace ThemeContext {
 }
 declare namespace QuizContext {
   type Data = {
-    questions: QuizModule.Question[]
-    finished: boolean
-    score?: QuizModule.Score
+    quiz: QuizModule.Quiz
     loading: boolean
-    handleStartQuiz: (amount: number) => Promise<void>
-    handleSubmitQuiz: (questions: QuizModule.Question[]) => void
-    handleCancelQuiz: () => void
+    handleStartQuiz: (amount: number) => void
+    handleSubmitQuiz: (submittedQuestions: QuizModule.Question[]) => void
+    resetQuiz: () => void
   }
 
   type Props = {

@@ -18,10 +18,10 @@ import { validationSchema } from './formUtils'
 export function QuizForm(): JSX.Element {
   const history = useHistory()
 
-  const { questions, handleCancelQuiz, handleSubmitQuiz } = useQuiz()
+  const { quiz, resetQuiz, handleSubmitQuiz } = useQuiz()
 
-  const handleCancelAndRedirectQuiz = (): void => {
-    handleCancelQuiz()
+  const handleCancelQuiz = (): void => {
+    resetQuiz()
     history.push('/')
   }
 
@@ -39,7 +39,7 @@ export function QuizForm(): JSX.Element {
         style={{ gap: 20, marginBottom: 20 }}
       >
         <Formik
-          initialValues={{ questions }}
+          initialValues={{ questions: quiz.questions }}
           onSubmit={handleSubmit}
           validationSchema={validationSchema}
           validateOnMount
@@ -48,8 +48,8 @@ export function QuizForm(): JSX.Element {
             <Form>
               <FieldArray name="questions">
                 {() =>
-                  values.questions.length > 0 &&
-                  values.questions.map((question, index) => (
+                  values.questions?.length > 0 &&
+                  values.questions?.map((question, index) => (
                     <Question
                       key={question.question}
                       index={index}
@@ -63,7 +63,7 @@ export function QuizForm(): JSX.Element {
                 <Button
                   variant="contained"
                   color="secondary"
-                  onClick={handleCancelAndRedirectQuiz}
+                  onClick={handleCancelQuiz}
                 >
                   CANCEL
                 </Button>
