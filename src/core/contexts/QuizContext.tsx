@@ -80,6 +80,7 @@ export function QuizProvider({ children }: QuizContext.Props): JSX.Element {
     <QuizContext.Provider
       value={{
         quiz,
+        setQuiz,
         loading,
         handleStartQuiz,
         handleSubmitQuiz,

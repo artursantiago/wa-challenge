@@ -23,3 +23,10 @@ declare namespace StartQuiz {
     setStep: React.Dispatch<React.SetStateAction<number>>
   }
 }
+
+declare namespace QuizCard {
+  type Props = {
+    quiz: QuizModule.Quiz
+    index: number
+  }
+}
