@@ -1,14 +1,22 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Box, Button, Typography } from '@material-ui/core'
+import { Box, Button, makeStyles, Typography } from '@material-ui/core'
 
 import { useQuiz } from 'core/hooks'
+
+const useStyles = makeStyles({
+  gap: {
+    gap: 20
+  }
+})
 
 export function StartQuiz({
   amount,
   setAmount,
   setStep
 }: StartQuiz.Props): JSX.Element {
+  const classes = useStyles()
+
   const history = useHistory()
   const { handleStartQuiz } = useQuiz()
 
@@ -27,12 +35,12 @@ export function StartQuiz({
       display="flex"
       flexDirection="column"
       alignItems="center"
-      style={{ gap: 20 }}
+      className={classes.gap}
     >
       <Typography>
         Start the quiz with {amount} {amount > 1 ? 'questions' : 'question'}?
       </Typography>
-      <Box display="flex" justifyContent="center" style={{ gap: 20 }}>
+      <Box display="flex" justifyContent="center" className={classes.gap}>
         <Button
           variant="contained"
           color="secondary"

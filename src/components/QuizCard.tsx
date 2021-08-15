@@ -28,9 +28,8 @@ const useStyles = makeStyles({
 })
 
 export function QuizCard({ quiz, index }: QuizCard.Props): JSX.Element {
-  const { handleSelectQuiz } = useDrawer()
-
   const classes = useStyles()
+  const { handleSelectQuiz } = useDrawer()
 
   return (
     <Card className={classes.root}>

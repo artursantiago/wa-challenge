@@ -2,7 +2,6 @@
  * React & libs
  */
 import React, { useState, useMemo, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
 import { useFormik } from 'formik'
 import { Box, Button, makeStyles } from '@material-ui/core'
 
@@ -11,7 +10,7 @@ import { Box, Button, makeStyles } from '@material-ui/core'
  */
 import { useQuiz } from 'core/hooks'
 
-import { Question } from 'components/Question'
+import { Question } from 'components'
 
 import { validationSchema } from './formUtils'
 
@@ -21,11 +20,13 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     gap: 20,
     marginBottom: 20
+  },
+  gap: {
+    gap: 20
   }
 })
 
 export function QuizForm(): JSX.Element {
-  const history = useHistory()
   const classes = useStyles()
 
   const { quiz, resetQuiz, handleSubmitQuiz, setQuiz } = useQuiz()
@@ -35,11 +36,6 @@ export function QuizForm(): JSX.Element {
   const isLastQuestion = useMemo(() => {
     return currentQuestionIndex === quiz.questions.length - 1
   }, [currentQuestionIndex, quiz.questions.length])
-
-  const handleCancelQuiz = (): void => {
-    resetQuiz()
-    history.push('/')
-  }
 
   // Formik
   const { values, validateForm, handleChange, handleSubmit, isValid } =
@@ -76,7 +72,7 @@ export function QuizForm(): JSX.Element {
                 key={question.question}
                 display="flex"
                 flexDirection="column"
-                style={{ gap: 20 }}
+                className={classes.gap}
               >
                 <Question
                   index={index}
@@ -85,11 +81,11 @@ export function QuizForm(): JSX.Element {
                   showCorrection={!!question.selectedAnswer}
                 />
                 {!isValid && (
-                  <Box display="flex" style={{ gap: 20 }}>
+                  <Box display="flex" className={classes.gap}>
                     <Button
                       variant="contained"
                       color="secondary"
-                      onClick={handleCancelQuiz}
+                      onClick={() => resetQuiz()}
                     >
                       CANCEL
                     </Button>

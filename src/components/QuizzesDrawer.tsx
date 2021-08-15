@@ -65,7 +65,7 @@ export function QuizzesDrawer(): JSX.Element {
 
       <Box className={classes.scrollContainer}>
         {!previousQuizzes.length && (
-          <Typography variant="subtitle1" style={{ textAlign: 'center' }}>
+          <Typography variant="subtitle2" align="center">
             You haven&apos;t completed any quiz
           </Typography>
         )}

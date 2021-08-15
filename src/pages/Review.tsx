@@ -34,10 +34,11 @@ const useStyles = makeStyles({
 })
 
 export function Review(): JSX.Element {
+  const classes = useStyles()
+
   const history = useHistory()
   const { id } = useParams<RouteParams>()
 
-  const classes = useStyles()
   const { loading, quiz, getQuizFromStorage } = useQuiz()
 
   useEffect(() => {

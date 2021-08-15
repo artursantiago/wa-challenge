@@ -32,7 +32,7 @@ export function QuizReview(): JSX.Element {
             key={question.question}
             index={index}
             question={question}
-            showCorrection={!!quiz.finishedAt || !!question.selectedAnswer}
+            showCorrection
           />
         ))}
     </Box>

@@ -2,8 +2,7 @@
  * React & libs
  */
 import React from 'react'
-import { useHistory } from 'react-router-dom'
-import { Box, Button, Typography } from '@material-ui/core'
+import { Box, Button, Typography, makeStyles } from '@material-ui/core'
 
 /**
  * Config, core, components, utils, assets, styles
@@ -12,28 +11,29 @@ import { useQuiz } from 'core/hooks'
 
 import { percentage } from 'utils/masks'
 
-export function Score(): JSX.Element {
-  const history = useHistory()
-  const { quiz, resetQuiz } = useQuiz()
-
-  const handleResetQuiz = (): void => {
-    resetQuiz()
-    history.push('/')
+const useStyles = makeStyles({
+  root: {
+    gap: 20
   }
+})
+
+export function Score(): JSX.Element {
+  const classes = useStyles()
+  const { quiz, resetQuiz } = useQuiz()
 
   return (
     <Box
       display="flex"
       flexDirection="column"
       alignItems="center"
-      style={{ margin: '0 auto', gap: 20 }}
+      className={classes.root}
     >
       {quiz.finishedAt && (
-        <Typography variant="h4" style={{ textAlign: 'center' }}>
+        <Typography variant="h4" align="center">
           Your score: {percentage(quiz.score.percentage)}
         </Typography>
       )}
-      <Typography variant="h6" style={{ textAlign: 'center' }}>
+      <Typography variant="h6" align="center">
         Right: {quiz.score.correctAnswersTotal}
         <br />
         Wrong: {quiz.score.wrongAnswersTotal}
@@ -47,7 +47,7 @@ export function Score(): JSX.Element {
       </Typography>
 
       {quiz.finishedAt && (
-        <Button variant="contained" color="primary" onClick={handleResetQuiz}>
+        <Button variant="contained" color="primary" onClick={() => resetQuiz()}>
           Try another quiz
         </Button>
       )}

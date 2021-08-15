@@ -1,3 +1,9 @@
+/**
+ * Calculate the number of correct/incorrect answers and the percentage of
+ * success and returns it
+ * @param questions List of question
+ * @returns score object
+ */
 export function calculateScore(
   questions: QuizModule.Question[]
 ): QuizModule.Score {

@@ -1,4 +1,4 @@
-import apiInstance from 'core/api/config'
+import { apiInstance } from 'core/api/config'
 
 export const fetchQuestions: API.FetchQuestions = async ({ amount }) => {
   const endpoint = `api.php?amount=${amount}`

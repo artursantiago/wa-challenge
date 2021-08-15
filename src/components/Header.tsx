@@ -10,8 +10,16 @@ import { Menu, NightsStay, WbSunny } from '@material-ui/icons'
  * Config, core, components, utils, assets, styles
  */
 import { useDrawer, useTheme } from 'core/hooks'
+import { makeStyles } from '@material-ui/styles'
+
+const useStyles = makeStyles({
+  title: {
+    marginRight: 'auto'
+  }
+})
 
 export function Header(): JSX.Element {
+  const classes = useStyles()
   const history = useHistory()
 
   const { theme, setTheme } = useTheme()
@@ -21,14 +29,14 @@ export function Header(): JSX.Element {
     return history?.location?.pathname?.includes('quiz') ? 'Quiz' : 'Home'
   }, [history.location.pathname])
 
-  function handleSwitchTheme(): void {
+  const handleSwitchTheme = (): void => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
   }
 
   return (
     <AppBar>
       <Toolbar>
-        <Typography variant="h4" style={{ marginRight: 'auto' }}>
+        <Typography variant="h4" className={classes.title}>
           {headerTitle}
         </Typography>
         <IconButton onClick={handleSwitchTheme}>

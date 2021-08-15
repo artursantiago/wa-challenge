@@ -84,6 +84,7 @@ export function QuizProvider({ children }: QuizContext.Props): JSX.Element {
 
   const resetQuiz = (): void => {
     setQuiz(generateQuizInitalValue())
+    history.push('/')
   }
 
   const getQuizFromStorage = useCallback(
