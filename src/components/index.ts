@@ -4,5 +4,6 @@ export { SelectQuestionAmount } from './SelectQuestionAmount/SelectQuestionAmoun
 export { StartQuiz } from './StartQuiz'
 export { Score } from './Score'
 export { QuizForm } from './QuizForm/QuizForm'
+export { QuizReview } from './QuizReview/QuizReview'
 export { QuizzesDrawer } from './QuizzesDrawer'
 export { QuizCard } from './QuizCard'

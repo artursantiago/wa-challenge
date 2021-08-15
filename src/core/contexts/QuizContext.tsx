@@ -1,7 +1,7 @@
 /**
  * React & libs
  */
-import React, { createContext, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 
 /**
  * Config, core, components, utils, assets, styles
@@ -14,9 +14,19 @@ import { storage } from 'utils/storage'
 
 export const QuizContext = createContext({} as QuizContext.Data)
 
+const generateQuizInitalValue = (): QuizModule.Quiz => ({
+  id: '',
+  questions: [],
+  score: {
+    correctAnswersTotal: 0,
+    percentage: 0
+  },
+  startedAt: new Date()
+})
+
 export function QuizProvider({ children }: QuizContext.Props): JSX.Element {
   const { previousQuizzes, updatePreviousQuizzes } = useDrawer()
-  const [quiz, setQuiz] = useState<QuizModule.Quiz>({} as QuizModule.Quiz)
+  const [quiz, setQuiz] = useState<QuizModule.Quiz>(generateQuizInitalValue())
   const [loading, setLoading] = useState(false)
 
   const handleStartQuiz = async (amount: number): Promise<void> => {
@@ -75,8 +85,15 @@ export function QuizProvider({ children }: QuizContext.Props): JSX.Element {
   }
 
   const resetQuiz = (): void => {
-    setQuiz({} as QuizModule.Quiz)
+    setQuiz(generateQuizInitalValue())
   }
+
+  useEffect(() => {
+    setQuiz((prev) => ({
+      ...prev,
+      score: calculateScore(prev.questions)
+    }))
+  }, [quiz.questions])
 
   return (
     <QuizContext.Provider

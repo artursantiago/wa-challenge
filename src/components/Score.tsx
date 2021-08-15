@@ -16,7 +16,7 @@ export function Score(): JSX.Element {
   const history = useHistory()
   const { quiz, resetQuiz } = useQuiz()
 
-  const handleCancelQuiz = (): void => {
+  const handleResetQuiz = (): void => {
     resetQuiz()
     history.push('/')
   }
@@ -37,9 +37,11 @@ export function Score(): JSX.Element {
           questions right.
         </Typography>
       </Box>
-      <Button variant="contained" color="primary" onClick={handleCancelQuiz}>
-        Try another quiz
-      </Button>
+      {quiz.finishedAt && (
+        <Button variant="contained" color="primary" onClick={handleResetQuiz}>
+          Try another quiz
+        </Button>
+      )}
     </Box>
   )
 }

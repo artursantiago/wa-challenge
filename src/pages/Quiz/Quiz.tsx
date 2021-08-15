@@ -1,11 +1,12 @@
 /**
  * React & libs
  */
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { Box, CircularProgress, makeStyles } from '@material-ui/core'
 
 import { useQuiz } from 'core/hooks'
-import { Header, QuizForm, Score } from 'components'
+import { Header, Score, QuizForm } from 'components'
 
 const useStyles = makeStyles({
   quizContainer: {
@@ -19,8 +20,16 @@ const useStyles = makeStyles({
 })
 
 export function Quiz(): JSX.Element {
+  const history = useHistory()
   const classes = useStyles()
   const { loading, quiz } = useQuiz()
+
+  useEffect(() => {
+    if (!quiz.questions.length && !loading) {
+      history.replace('/')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, quiz.questions.length])
 
   return (
     <>
@@ -29,10 +38,12 @@ export function Quiz(): JSX.Element {
         {loading ? (
           <CircularProgress className={classes.spinner} />
         ) : (
-          <>
-            <QuizForm />
-            {quiz.finishedAt && <Score />}
-          </>
+          quiz.questions?.length && (
+            <>
+              <QuizForm />
+              <Score />
+            </>
+          )
         )}
       </Box>
     </>
