@@ -1,11 +1,12 @@
 /**
  * React & libs
  */
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useEffect, useState, useCallback } from 'react'
 
 /**
  * Config, core, components, utils, assets, styles
  */
+import history from 'config/routes/history'
 import { api } from 'core/api'
 import { useDrawer } from 'core/hooks'
 
@@ -19,28 +20,22 @@ const generateQuizInitalValue = (): QuizModule.Quiz => ({
   questions: [],
   score: {
     correctAnswersTotal: 0,
+    wrongAnswersTotal: 0,
     percentage: 0
   },
   startedAt: new Date()
 })
 
 export function QuizProvider({ children }: QuizContext.Props): JSX.Element {
-  const { previousQuizzes, updatePreviousQuizzes } = useDrawer()
+  const { previousQuizzes: previousQuizzesDrawer, updatePreviousQuizzes } =
+    useDrawer()
   const [quiz, setQuiz] = useState<QuizModule.Quiz>(generateQuizInitalValue())
   const [loading, setLoading] = useState(false)
 
-  const handleStartQuiz = async (amount: number): Promise<void> => {
+  const handleStartQuiz = useCallback(async (amount: number): Promise<void> => {
     setLoading(true)
 
-    setQuiz({
-      id: '',
-      questions: [],
-      score: {
-        percentage: 0,
-        correctAnswersTotal: 0
-      },
-      startedAt: new Date()
-    })
+    setQuiz(generateQuizInitalValue())
     const { results, response_code } = await api.fetchQuestions({ amount })
 
     if (
@@ -63,30 +58,56 @@ export function QuizProvider({ children }: QuizContext.Props): JSX.Element {
       questions: newQuestions
     }))
     setLoading(false)
-  }
+  }, [])
 
-  const handleSubmitQuiz = (
-    submittedQuestions: QuizModule.Question[]
-  ): void => {
-    const newQuiz = {
-      ...quiz,
-      id: String(new Date().getTime()),
-      score: calculateScore(submittedQuestions),
-      questions: submittedQuestions,
-      finishedAt: new Date()
-    }
-    setQuiz(newQuiz)
+  const handleSubmitQuiz = useCallback(
+    (submittedQuestions: QuizModule.Question[]): void => {
+      const newQuiz = {
+        ...quiz,
+        id: String(new Date().getTime()),
+        score: calculateScore(submittedQuestions),
+        questions: submittedQuestions,
+        finishedAt: new Date()
+      }
+      setQuiz(newQuiz)
 
-    const newQuizzes = previousQuizzes?.length
-      ? [...previousQuizzes, newQuiz]
-      : [newQuiz]
-    storage.save<QuizModule.Quiz[]>('quizzes', newQuizzes)
-    updatePreviousQuizzes()
-  }
+      const newQuizzes = previousQuizzesDrawer?.length
+        ? [...previousQuizzesDrawer, newQuiz]
+        : [newQuiz]
+      storage.save<QuizModule.Quiz[]>('quizzes', newQuizzes)
+      updatePreviousQuizzes()
+
+      history.push(`/quiz/${newQuiz.id}`)
+    },
+    [previousQuizzesDrawer, quiz, updatePreviousQuizzes]
+  )
 
   const resetQuiz = (): void => {
     setQuiz(generateQuizInitalValue())
   }
+
+  const getQuizFromStorage = useCallback(
+    async (quizId: string): Promise<void> => {
+      setLoading(true)
+      await new Promise((resolve) => setTimeout(resolve, 500))
+
+      const previousQuizzes = storage.get<QuizModule.Quiz[]>('quizzes')
+
+      const foundQuiz = previousQuizzes?.find(
+        (previousQuiz) => previousQuiz.id === quizId
+      )
+
+      if (!foundQuiz) {
+        setLoading(false)
+        history.replace('/')
+        return
+      }
+
+      setQuiz(foundQuiz)
+      setLoading(false)
+    },
+    []
+  )
 
   useEffect(() => {
     setQuiz((prev) => ({
@@ -103,7 +124,8 @@ export function QuizProvider({ children }: QuizContext.Props): JSX.Element {
         loading,
         handleStartQuiz,
         handleSubmitQuiz,
-        resetQuiz
+        resetQuiz,
+        getQuizFromStorage
       }}
     >
       {children}

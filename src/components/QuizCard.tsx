@@ -19,7 +19,8 @@ import { percentage } from 'utils/masks'
 
 const useStyles = makeStyles({
   root: {
-    marginBottom: 20
+    marginBottom: 20,
+    height: 64
   },
   actionArea: {
     padding: 20

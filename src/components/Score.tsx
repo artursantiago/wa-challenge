@@ -28,15 +28,24 @@ export function Score(): JSX.Element {
       alignItems="center"
       style={{ margin: '0 auto', gap: 20 }}
     >
-      <Box>
-        <Typography variant="h4">
+      {quiz.finishedAt && (
+        <Typography variant="h4" style={{ textAlign: 'center' }}>
           Your score: {percentage(quiz.score.percentage)}
         </Typography>
-        <Typography variant="h6">
-          You got {quiz.score.correctAnswersTotal}/{quiz.questions.length}{' '}
-          questions right.
-        </Typography>
-      </Box>
+      )}
+      <Typography variant="h6" style={{ textAlign: 'center' }}>
+        Right: {quiz.score.correctAnswersTotal}
+        <br />
+        Wrong: {quiz.score.wrongAnswersTotal}
+        <br />
+        {!quiz.finishedAt &&
+          `Remaning:
+        ${
+          quiz.questions.length -
+          (quiz.score.correctAnswersTotal + quiz.score.wrongAnswersTotal)
+        }`}
+      </Typography>
+
       {quiz.finishedAt && (
         <Button variant="contained" color="primary" onClick={handleResetQuiz}>
           Try another quiz

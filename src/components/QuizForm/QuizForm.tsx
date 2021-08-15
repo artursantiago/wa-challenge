@@ -42,13 +42,14 @@ export function QuizForm(): JSX.Element {
   }
 
   // Formik
-  const { values, validateForm, handleChange, handleSubmit } = useFormik({
-    initialValues: { questions: quiz.questions },
-    validationSchema,
-    onSubmit: ({ questions: submittedQuestions }) => {
-      handleSubmitQuiz(submittedQuestions)
-    }
-  })
+  const { values, validateForm, handleChange, handleSubmit, isValid } =
+    useFormik({
+      initialValues: { questions: quiz.questions },
+      validationSchema,
+      onSubmit: ({ questions: submittedQuestions }) => {
+        handleSubmitQuiz(submittedQuestions)
+      }
+    })
 
   useEffect(() => {
     // Validate form on mount
@@ -83,27 +84,29 @@ export function QuizForm(): JSX.Element {
                   handleChange={handleChange}
                   showCorrection={!!question.selectedAnswer}
                 />
-                <Box display="flex" style={{ gap: 20 }}>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleCancelQuiz}
-                  >
-                    CANCEL
-                  </Button>
-                  {!isLastQuestion && (
+                {!isValid && (
+                  <Box display="flex" style={{ gap: 20 }}>
                     <Button
                       variant="contained"
-                      color="primary"
-                      disabled={!question.selectedAnswer}
-                      onClick={() =>
-                        setCurrentQuestionIndex((prev) => prev + 1)
-                      }
+                      color="secondary"
+                      onClick={handleCancelQuiz}
                     >
-                      Next
+                      CANCEL
                     </Button>
-                  )}
-                </Box>
+                    {!isLastQuestion && (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        disabled={!question.selectedAnswer}
+                        onClick={() =>
+                          setCurrentQuestionIndex((prev) => prev + 1)
+                        }
+                      >
+                        Next
+                      </Button>
+                    )}
+                  </Box>
+                )}
               </Box>
             )
         )}

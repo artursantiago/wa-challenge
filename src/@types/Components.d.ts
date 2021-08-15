@@ -3,7 +3,7 @@ declare namespace Question {
     index: number
     question: QuizModule.Question
     showCorrection?: boolean
-    handleChange: (
+    handleChange?: (
       event: React.ChangeEvent<HTMLInputElement>,
       value: string
     ) => void

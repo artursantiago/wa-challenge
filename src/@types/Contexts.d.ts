@@ -16,6 +16,7 @@ declare namespace QuizContext {
     handleSubmitQuiz: (submittedQuestions: QuizModule.Question[]) => void
     setQuiz: React.Dispatch<React.SetStateAction<QuizModule.Quiz>>
     resetQuiz: () => void
+    getQuizFromStorage: (quizId: string) => Promise<void>
   }
 
   type Props = {

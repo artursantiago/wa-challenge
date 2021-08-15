@@ -6,6 +6,7 @@ declare namespace QuizModule {
   type Score = {
     percentage: number // percentage
     correctAnswersTotal: number
+    wrongAnswersTotal: number
   }
 
   type Question = {

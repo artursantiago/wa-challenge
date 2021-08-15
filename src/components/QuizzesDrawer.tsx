@@ -2,7 +2,14 @@
  * React & libs
  */
 import React, { useRef } from 'react'
-import { Drawer, Typography } from '@material-ui/core'
+import {
+  Box,
+  Drawer,
+  IconButton,
+  Typography,
+  makeStyles
+} from '@material-ui/core'
+import { Close } from '@material-ui/icons'
 
 /**
  * Config, core, components, utils, assets, styles
@@ -11,7 +18,19 @@ import { useDrawer, useOutsideClick } from 'core/hooks'
 
 import { QuizCard } from 'components'
 
+const useStyles = makeStyles({
+  header: {
+    padding: 32
+  },
+  scrollContainer: {
+    flex: '1 1',
+    padding: '0 32px 32px 32px',
+    overflowY: 'auto'
+  }
+})
+
 export function QuizzesDrawer(): JSX.Element {
+  const classes = useStyles()
   const { isOpen, setIsOpen, previousQuizzes } = useDrawer()
 
   const ref = useRef(null)
@@ -27,24 +46,34 @@ export function QuizzesDrawer(): JSX.Element {
       PaperProps={{
         ref,
         style: {
-          width: 520,
-          padding: 20
+          width: 520
         }
       }}
     >
-      <Typography variant="h4" style={{ marginBottom: 20 }}>
-        Previous Quizzes
-      </Typography>
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        onClick={() => setIsOpen((prev) => !prev)}
+        className={classes.header}
+      >
+        <Typography variant="h4">Previous Quizzes</Typography>
+        <IconButton>
+          <Close />
+        </IconButton>
+      </Box>
 
-      {!previousQuizzes.length && (
-        <Typography variant="subtitle1" style={{ textAlign: 'center' }}>
-          You haven&apos;t completed any quiz
-        </Typography>
-      )}
+      <Box className={classes.scrollContainer}>
+        {!previousQuizzes.length && (
+          <Typography variant="subtitle1" style={{ textAlign: 'center' }}>
+            You haven&apos;t completed any quiz
+          </Typography>
+        )}
 
-      {previousQuizzes.map((quiz, index) => (
-        <QuizCard key={quiz.id} quiz={quiz} index={index} />
-      ))}
+        {previousQuizzes.map((quiz, index) => (
+          <QuizCard key={quiz.id} quiz={quiz} index={index} />
+        ))}
+      </Box>
     </Drawer>
   )
 }

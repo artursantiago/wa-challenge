@@ -1,14 +1,17 @@
 /**
  * React & libs
  */
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
 import { Box, CircularProgress, makeStyles } from '@material-ui/core'
 
 /**
  * Config, core, components, utils, assets, styles
  */
+import { RouteParams } from 'config/routes'
 import { useQuiz } from 'core/hooks'
-import { Header, Score, QuizForm } from 'components'
+
+import { Header, Score, QuizReview } from 'components'
 
 const useStyles = makeStyles({
   quizContainer: {
@@ -30,9 +33,20 @@ const useStyles = makeStyles({
   }
 })
 
-export function Quiz(): JSX.Element {
+export function Review(): JSX.Element {
+  const history = useHistory()
+  const { id } = useParams<RouteParams>()
+
   const classes = useStyles()
-  const { loading, quiz } = useQuiz()
+  const { loading, quiz, getQuizFromStorage } = useQuiz()
+
+  useEffect(() => {
+    if (!id) {
+      history.replace('/')
+      return
+    }
+    getQuizFromStorage(id)
+  }, [getQuizFromStorage, history, id])
 
   return (
     <>
@@ -44,7 +58,7 @@ export function Quiz(): JSX.Element {
           !!quiz.questions.length && (
             <>
               <Box className={classes.quiz}>
-                <QuizForm />
+                <QuizReview />
               </Box>
               <Box className={classes.score}>
                 <Score />
