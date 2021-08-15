@@ -12,7 +12,7 @@ import { useDrawer, useOutsideClick } from 'core/hooks'
 import { QuizCard } from 'components'
 
 export function QuizzesDrawer(): JSX.Element {
-  const { isOpen, setIsOpen, savedQuizzes } = useDrawer()
+  const { isOpen, setIsOpen, previousQuizzes } = useDrawer()
 
   const ref = useRef(null)
 
@@ -36,13 +36,13 @@ export function QuizzesDrawer(): JSX.Element {
         Previous Quizzes
       </Typography>
 
-      {!savedQuizzes.length && (
+      {!previousQuizzes.length && (
         <Typography variant="subtitle1" style={{ textAlign: 'center' }}>
           You haven&apos;t completed any quiz
         </Typography>
       )}
 
-      {savedQuizzes.map((quiz, index) => (
+      {previousQuizzes.map((quiz, index) => (
         <QuizCard key={quiz.id} quiz={quiz} index={index} />
       ))}
     </Drawer>

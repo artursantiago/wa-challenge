@@ -9,17 +9,14 @@ import React from 'react'
 import { Routes } from 'config/routes'
 import { DrawerProvider, QuizProvider, ThemeProvider } from 'core/contexts'
 
-import { QuizzesDrawer } from 'components'
-
 export function App(): JSX.Element {
   return (
     <ThemeProvider>
-      <QuizProvider>
-        <DrawerProvider>
+      <DrawerProvider>
+        <QuizProvider>
           <Routes />
-          <QuizzesDrawer />
-        </DrawerProvider>
-      </QuizProvider>
+        </QuizProvider>
+      </DrawerProvider>
     </ThemeProvider>
   )
 }

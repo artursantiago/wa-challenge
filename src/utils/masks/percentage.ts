@@ -1,3 +1,3 @@
 export function percentage(value: number): string {
-  return `${value * 100}%`
+  return `${Math.round(value * 100 * 100) / 100}%`
 }

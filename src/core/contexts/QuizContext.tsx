@@ -7,6 +7,7 @@ import React, { createContext, useState } from 'react'
  * Config, core, components, utils, assets, styles
  */
 import { api } from 'core/api'
+import { useDrawer } from 'core/hooks'
 
 import { calculateScore } from 'utils/helpers'
 import { storage } from 'utils/storage'
@@ -14,6 +15,7 @@ import { storage } from 'utils/storage'
 export const QuizContext = createContext({} as QuizContext.Data)
 
 export function QuizProvider({ children }: QuizContext.Props): JSX.Element {
+  const { previousQuizzes, updatePreviousQuizzes } = useDrawer()
   const [quiz, setQuiz] = useState<QuizModule.Quiz>({} as QuizModule.Quiz)
   const [loading, setLoading] = useState(false)
 
@@ -65,11 +67,11 @@ export function QuizProvider({ children }: QuizContext.Props): JSX.Element {
     }
     setQuiz(newQuiz)
 
-    const savedQuizzes = storage.get<QuizModule.Quiz[]>('quizzes')
-    const newQuizzes = savedQuizzes?.length
-      ? [...savedQuizzes, newQuiz]
+    const newQuizzes = previousQuizzes?.length
+      ? [...previousQuizzes, newQuiz]
       : [newQuiz]
     storage.save<QuizModule.Quiz[]>('quizzes', newQuizzes)
+    updatePreviousQuizzes()
   }
 
   const resetQuiz = (): void => {

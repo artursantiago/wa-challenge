@@ -7,29 +7,34 @@ import React, { createContext, useState } from 'react'
  * Config, core, components, utils, assets, styles
  */
 import history from 'config/routes/history'
-import { useQuiz } from 'core/hooks'
 
 import { storage } from 'utils/storage'
 
 export const DrawerContext = createContext({} as DrawerContext.Data)
 
 export function DrawerProvider({ children }: DrawerContext.Props): JSX.Element {
-  const { setQuiz } = useQuiz()
-
-  const [savedQuizzes, setSavedQuizzes] = useState<QuizModule.Quiz[]>(() => {
-    return storage.get<QuizModule.Quiz[]>('quizzes') ?? []
-  })
+  const [previousQuizzes, setPreviousQuizzes] = useState<QuizModule.Quiz[]>(
+    () => {
+      return storage.get<QuizModule.Quiz[]>('quizzes') ?? []
+    }
+  )
 
   const [isOpen, setIsOpen] = useState(false)
 
   const clearQuizzes = (): void => {
-    setSavedQuizzes([])
+    setPreviousQuizzes([])
   }
 
   const handleSelectQuiz = (quiz: QuizModule.Quiz): void => {
-    setQuiz(quiz)
     setIsOpen(false)
-    history.push('/quiz')
+    history.push(`/quiz/${quiz.id}`)
+  }
+
+  const updatePreviousQuizzes = (): void => {
+    const newPreviousQuizzes = storage.get<QuizModule.Quiz[]>('quizzes')
+    if (newPreviousQuizzes) {
+      setPreviousQuizzes(newPreviousQuizzes)
+    }
   }
 
   return (
@@ -37,9 +42,10 @@ export function DrawerProvider({ children }: DrawerContext.Props): JSX.Element {
       value={{
         isOpen,
         setIsOpen,
-        savedQuizzes,
+        previousQuizzes,
         clearQuizzes,
-        handleSelectQuiz
+        handleSelectQuiz,
+        updatePreviousQuizzes
       }}
     >
       {children}

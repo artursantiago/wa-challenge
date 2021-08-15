@@ -3,6 +3,7 @@ import { Router, Route, Switch } from 'react-router-dom'
 import { CircularProgress } from '@material-ui/core'
 
 import { Home, Quiz } from 'pages'
+import { QuizzesDrawer } from 'components'
 
 import history from './history'
 
@@ -12,9 +13,10 @@ export const Routes = (): JSX.Element => {
       <Suspense fallback={<CircularProgress />}>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/quiz" component={Quiz} />
+          <Route path="/quiz" component={Quiz} />
         </Switch>
       </Suspense>
+      <QuizzesDrawer />
     </Router>
   )
 }

@@ -12,7 +12,7 @@ declare namespace QuizContext {
   type Data = {
     quiz: QuizModule.Quiz
     loading: boolean
-    handleStartQuiz: (amount: number) => void
+    handleStartQuiz: (amount: number) => Promise<void>
     handleSubmitQuiz: (submittedQuestions: QuizModule.Question[]) => void
     setQuiz: React.Dispatch<React.SetStateAction<QuizModule.Quiz>>
     resetQuiz: () => void
@@ -26,10 +26,11 @@ declare namespace QuizContext {
 declare namespace DrawerContext {
   type Data = {
     isOpen: boolean
-    savedQuizzes: QuizModule.Quiz[]
+    previousQuizzes: QuizModule.Quiz[]
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
     clearQuizzes: () => void
     handleSelectQuiz: (quiz: QuizModule.Quiz) => void
+    updatePreviousQuizzes: () => void
   }
 
   type Props = {
