@@ -40,6 +40,7 @@ export function QuizzesDrawer(): JSX.Element {
 
   return (
     <Drawer
+      data-testid="quizzes-drawer"
       variant="temporary"
       open={isOpen}
       anchor="right"

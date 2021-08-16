@@ -34,15 +34,22 @@ export function Header(): JSX.Element {
   }
 
   return (
-    <AppBar>
+    <AppBar data-testid="header">
       <Toolbar>
         <Typography variant="h4" className={classes.title}>
           {headerTitle}
         </Typography>
-        <IconButton onClick={handleSwitchTheme}>
+        <IconButton
+          data-testid="toggle-theme-button"
+          title={`Use ${theme === 'dark' ? 'light' : 'dark'} theme`}
+          onClick={handleSwitchTheme}
+        >
           {theme === 'dark' ? <WbSunny /> : <NightsStay />}
         </IconButton>
-        <IconButton onClick={() => setDrawerIsOpen((prev) => !prev)}>
+        <IconButton
+          data-testid="open-drawer-button"
+          onClick={() => setDrawerIsOpen((prev) => !prev)}
+        >
           <Menu />
         </IconButton>
       </Toolbar>
