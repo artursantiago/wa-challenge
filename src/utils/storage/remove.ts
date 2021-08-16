@@ -1,3 +1,5 @@
+import { PROJECT_NAME } from 'config'
+
 export const removeFromStorage = (
   key: string,
   storage?: StorageModule.Type
@@ -9,5 +11,5 @@ export const removeFromStorage = (
   }
 
   const store: Storage = storage === 'Local' ? localStorage : sessionStorage
-  store.removeItem(`@wachallenge:${key}`)
+  store.removeItem(`@${PROJECT_NAME}:${key}`)
 }

@@ -1,3 +1,5 @@
+import { PROJECT_NAME } from 'config'
+
 export const saveToStorage = <T>(
   key: string,
   value: T,
@@ -10,5 +12,5 @@ export const saveToStorage = <T>(
 
   const store: Storage = storage === 'Local' ? localStorage : sessionStorage
 
-  store.setItem(`@wachallenge:${key}`, JSON.stringify(value))
+  store.setItem(`@${PROJECT_NAME}:${key}`, JSON.stringify(value))
 }

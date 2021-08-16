@@ -1,3 +1,5 @@
+import { PROJECT_NAME } from 'config'
+
 export const getFromStorage = <T>(
   key: string,
   storage?: StorageModule.Type
@@ -10,7 +12,7 @@ export const getFromStorage = <T>(
   let item: unknown = null
 
   try {
-    item = JSON.parse(store.getItem(`@wachallenge:${key}`) ?? 'null')
+    item = JSON.parse(store.getItem(`@${PROJECT_NAME}:${key}`) ?? 'null')
   } catch (e) {
     console.log(e)
   }
