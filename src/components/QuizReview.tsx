@@ -25,7 +25,7 @@ export function QuizReview(): JSX.Element {
   const { quiz } = useQuiz()
 
   return (
-    <Box className={classes.root}>
+    <Box data-testid="quiz-review" className={classes.root}>
       {quiz.questions?.length > 0 &&
         quiz.questions?.map((question, index) => (
           <Question

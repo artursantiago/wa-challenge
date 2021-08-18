@@ -32,8 +32,9 @@ export function QuizCard({ quiz, index }: QuizCard.Props): JSX.Element {
   const { handleSelectQuiz } = useDrawer()
 
   return (
-    <Card className={classes.root}>
+    <Card data-testid="quiz-card" className={classes.root}>
       <CardActionArea
+        data-testid="quiz-card-action-area"
         className={classes.actionArea}
         onClick={() => handleSelectQuiz(quiz)}
       >

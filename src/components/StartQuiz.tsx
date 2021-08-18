@@ -20,9 +20,9 @@ export function StartQuiz({
   const history = useHistory()
   const { handleStartQuiz } = useQuiz()
 
-  const handleClickStart = async (): Promise<void> => {
+  const handleClickStart = (): void => {
     history.push('/quiz')
-    await handleStartQuiz(amount)
+    handleStartQuiz(amount)
   }
 
   const handleClickCancel = (): void => {
@@ -32,6 +32,7 @@ export function StartQuiz({
 
   return (
     <Box
+      data-testid="start-quiz"
       display="flex"
       flexDirection="column"
       alignItems="center"
@@ -42,13 +43,19 @@ export function StartQuiz({
       </Typography>
       <Box display="flex" justifyContent="center" className={classes.gap}>
         <Button
+          data-testid="cancel-start-quiz-button"
           variant="contained"
           color="secondary"
           onClick={handleClickCancel}
         >
           Cancel
         </Button>
-        <Button variant="contained" color="primary" onClick={handleClickStart}>
+        <Button
+          data-testid="start-quiz-button"
+          variant="contained"
+          color="primary"
+          onClick={handleClickStart}
+        >
           Start
         </Button>
       </Box>

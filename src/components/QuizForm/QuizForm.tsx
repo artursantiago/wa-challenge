@@ -63,7 +63,11 @@ export function QuizForm(): JSX.Element {
   }, [handleSubmit, isLastQuestion, setQuiz, values.questions])
 
   return (
-    <form className={classes.form} onSubmit={handleSubmit}>
+    <form
+      data-testid="quiz-form"
+      className={classes.form}
+      onSubmit={handleSubmit}
+    >
       {values.questions?.length > 0 &&
         values.questions?.map(
           (question, index) =>

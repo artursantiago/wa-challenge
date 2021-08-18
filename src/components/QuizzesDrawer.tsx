@@ -38,6 +38,8 @@ export function QuizzesDrawer(): JSX.Element {
   const handleClickOutside = (): void => setIsOpen(false)
   useOutsideClick(ref, handleClickOutside)
 
+  console.log({ isOpen })
+
   return (
     <Drawer
       data-testid="quizzes-drawer"
@@ -55,11 +57,13 @@ export function QuizzesDrawer(): JSX.Element {
         display="flex"
         alignItems="center"
         justifyContent="space-between"
-        onClick={() => setIsOpen((prev) => !prev)}
         className={classes.header}
       >
         <Typography variant="h4">Previous Quizzes</Typography>
-        <IconButton>
+        <IconButton
+          data-testid="quizzes-drawer-close"
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
           <Close />
         </IconButton>
       </Box>

@@ -31,7 +31,7 @@ export function SelectQuestionAmount({
   } = formik
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form data-testid="select-question-amount" onSubmit={handleSubmit}>
       <FormLabel htmlFor="amount">
         <Typography variant="h6" align="center">
           How many questions do you want to answer?

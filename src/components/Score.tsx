@@ -21,8 +21,11 @@ export function Score(): JSX.Element {
   const classes = useStyles()
   const { quiz, resetQuiz } = useQuiz()
 
+  console.log({ quiz })
+
   return (
     <Box
+      data-testid="score"
       display="flex"
       flexDirection="column"
       alignItems="center"
@@ -47,7 +50,12 @@ export function Score(): JSX.Element {
       </Typography>
 
       {quiz.finishedAt && (
-        <Button variant="contained" color="primary" onClick={() => resetQuiz()}>
+        <Button
+          data-testid="try-another-quiz-button"
+          variant="contained"
+          color="primary"
+          onClick={() => resetQuiz()}
+        >
           Try another quiz
         </Button>
       )}

@@ -33,7 +33,7 @@ export function Question({
   )
 
   return (
-    <Box>
+    <Box data-testid="question">
       <FormControl component="fieldset">
         <FormLabel component="legend">{question.question}</FormLabel>
         <RadioGroup
